@@ -6,7 +6,7 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSValue.h>
 
-@class MindboxCommonMindboxCommon, MindboxCommonCustomerAbMixerCompanion, MindboxCommonKotlinThrowable, MindboxCommonKotlinArray<T>, MindboxCommonKotlinException, MindboxCommonKotlinRuntimeException;
+@class MindboxCommonMindboxCommon, MindboxCommonCustomerAbMixerCompanion, MindboxCommonMindboxUtils, MindboxCommonMindboxUtilsStopwatch, MindboxCommonKotlinThrowable, MindboxCommonKotlinArray<T>, MindboxCommonKotlinException, MindboxCommonKotlinRuntimeException;
 
 @protocol MindboxCommonCustomerAbMixer, MindboxCommonKotlinIterator;
 
@@ -177,6 +177,30 @@ __attribute__((swift_name("CustomerAbMixerImpl")))
 - (instancetype)init __attribute__((swift_name("init()"))) __attribute__((objc_designated_initializer));
 + (instancetype)new __attribute__((availability(swift, unavailable, message="use object initializers instead")));
 - (int32_t)stringModulusHashIdentifier:(NSString *)identifier salt:(NSString *)salt __attribute__((swift_name("stringModulusHash(identifier:salt:)")));
+@end
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("MindboxUtils")))
+@interface MindboxCommonMindboxUtils : MindboxCommonBase
++ (instancetype)alloc __attribute__((unavailable));
++ (instancetype)allocWithZone:(struct _NSZone *)zone __attribute__((unavailable));
++ (instancetype)mindboxUtils __attribute__((swift_name("init()")));
+@property (class, readonly, getter=shared) MindboxCommonMindboxUtils *shared __attribute__((swift_name("shared")));
+@end
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("MindboxUtils.Stopwatch")))
+@interface MindboxCommonMindboxUtilsStopwatch : MindboxCommonBase
++ (instancetype)alloc __attribute__((unavailable));
++ (instancetype)allocWithZone:(struct _NSZone *)zone __attribute__((unavailable));
++ (instancetype)stopwatch __attribute__((swift_name("init()")));
+@property (class, readonly, getter=shared) MindboxCommonMindboxUtilsStopwatch *shared __attribute__((swift_name("shared")));
+- (void)startTag:(NSString *)tag __attribute__((swift_name("start(tag:)")));
+- (id _Nullable)stopTag:(NSString *)tag __attribute__((swift_name("stop(tag:)")));
+- (id _Nullable)trackTag:(NSString *)tag __attribute__((swift_name("track(tag:)")));
+@property (readonly) NSString *GET_PUSH_TOKENS __attribute__((swift_name("GET_PUSH_TOKENS")));
+@property (readonly) NSString *INIT_PUSH_SERVICES __attribute__((swift_name("INIT_PUSH_SERVICES")));
+@property (readonly) NSString *INIT_SDK __attribute__((swift_name("INIT_SDK")));
 @end
 
 __attribute__((objc_subclassing_restricted))
