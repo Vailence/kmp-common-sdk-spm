@@ -1,6 +1,6 @@
 ---
 triple:          'arm64-apple-darwin'
-binary-path:     '/Users/semko/dev/Mindbox/kmp-common-sdk/mindbox-common/build/bin/iosArm64/releaseFramework/MindboxCommon.framework/MindboxCommon'
+binary-path:     '/Users/runner/work/kmp-common-sdk/kmp-common-sdk/mindbox-common/build/bin/iosArm64/releaseFramework/MindboxCommon.framework/MindboxCommon'
 relocations:
   - { offset: 0x294, size: 0x8, addend: 0x0, symName: '_kfun:kotlinx.cinterop.Pinned#unpin(){}', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x94 }
   - { offset: 0x29C, size: 0x8, addend: 0x0, symName: '_kfun:kotlinx.cinterop.Pinned#toString(){}kotlin.String', symObjAddr: 0x94, symBinAddr: 0x4094, symSize: 0x27C }
