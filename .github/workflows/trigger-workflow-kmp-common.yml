@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
       - name: Download XCFramework from KMP-COMMON release
         env:
           VERSION: ${{ github.event.client_payload.version }}
@@ -25,24 +30,24 @@ jobs:
           unzip -o MindboxCommon.xcframework.zip -d ./MindboxCommon.xcframework
 
       - name: Make script executable
-        run: chmod +x .github/scripts/update_common_podspec_version.sh
+        run: chmod +x .github/update_common_podspec_version.sh
 
       - name: Update version in MindboxCommon.podspec
         env:
           VERSION: ${{ github.event.client_payload.version }}
-        run: .github/scripts/update_common_podspec_version.sh "$VERSION"
+        run: .github/update_common_podspec_version.sh "$VERSION"
 
-      - name: Commit and push XCFramework
+      - name: Commit, push, and tag XCFramework
         env:
           VERSION: ${{ github.event.client_payload.version }}
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
           rm -rf MindboxCommon.xcframework
           unzip -o MindboxCommon.xcframework.zip -d ./MindboxCommon.xcframework
 
           git add MindboxCommon.xcframework
           git commit -m "Update XCFramework to version $VERSION" || echo "No XCFramework changes"
+          git push
+
+          echo "Creating and pushing tag $VERSION"
           git tag "$VERSION" || echo "Tag $VERSION already exists"
           git push origin "$VERSION"

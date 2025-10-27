@@ -30,16 +30,16 @@ echo "'$podspec_file' before updating:"
 grep "s.version" "$podspec_file"
 grep "s.source" "$podspec_file"
 
-# Detect OS for sed compatibility
+# Detect OS and use proper sed syntax
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  SED_CMD="sed -i ''"
+  # macOS (BSD sed)
+  sed -i '' -E "s|^[[:space:]]*s\.version[[:space:]]*=.*|    s.version      = '$version'|" "$podspec_file"
+  sed -i '' -E "s|^[[:space:]]*s\.source[[:space:]]*=.*|    s.source       = { :http => 'https://github.com/vailence/kmp-common-sdk/releases/download/$version/MindboxCommon.xcframework.zip' }|" "$podspec_file"
 else
-  SED_CMD="sed -i"
+  # Linux (GNU sed)
+  sed -i -E "s|^[[:space:]]*s\.version[[:space:]]*=.*|    s.version      = '$version'|" "$podspec_file"
+  sed -i -E "s|^[[:space:]]*s\.source[[:space:]]*=.*|    s.source       = { :http => 'https://github.com/vailence/kmp-common-sdk/releases/download/$version/MindboxCommon.xcframework.zip' }|" "$podspec_file"
 fi
-
-# Update version and source
-$SED_CMD "s|^[[:space:]]*s\.version[[:space:]]*=.*|    s.version      = '$version'|" "$podspec_file"
-$SED_CMD "s|^[[:space:]]*s\.source[[:space:]]*=.*|    s.source       = { :http => 'https://github.com/vailence/kmp-common-sdk/releases/download/$version/MindboxCommon.xcframework.zip' }|" "$podspec_file"
 
 echo "'$podspec_file' after updating:"
 grep "s.version" "$podspec_file"
