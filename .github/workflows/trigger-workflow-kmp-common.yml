@@ -1,4 +1,4 @@
-name: Download XCFramework from KMP-COMMON
+name: Triggered from kmp-common-sdk
 
 on:
   repository_dispatch:
@@ -19,14 +19,14 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - name: Download XCFramework from KMP-COMMON release
+      - name: Download XCFramework from kmp-common-sdk release
         env:
           VERSION: ${{ github.event.client_payload.version }}
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          echo "Downloading MindboxCommon.xcframework.zip for version $VERSION"
+          echo "📦 Downloading MindboxCommon.xcframework.zip for version $VERSION"
           curl -L -o MindboxCommon.xcframework.zip "https://github.com/vailence/kmp-common-sdk/releases/download/$VERSION/MindboxCommon.xcframework.zip"
-          echo "Unzipping..."
+          echo "🧩 Unzipping..."
           unzip -o MindboxCommon.xcframework.zip -d ./MindboxCommon.xcframework
 
       - name: Make script executable
@@ -45,9 +45,9 @@ jobs:
           unzip -o MindboxCommon.xcframework.zip -d ./MindboxCommon.xcframework
 
           git add MindboxCommon.xcframework
-          git commit -m "Update XCFramework to version $VERSION" || echo "No XCFramework changes"
+          git commit -m "Update XCFramework to version $VERSION" || echo "⚠️ No XCFramework changes"
           git push
 
-          echo "Creating and pushing tag $VERSION"
-          git tag "$VERSION" || echo "Tag $VERSION already exists"
+          echo "🏷️ Creating and pushing tag $VERSION"
+          git tag "$VERSION" || echo "⚠️ Tag $VERSION already exists"
           git push origin "$VERSION"
