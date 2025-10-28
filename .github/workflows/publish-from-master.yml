@@ -1,0 +1,26 @@
+name: Common SDK publish from master or support branch
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - 'master'
+
+jobs:
+  publish-MindboxCommon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: master
+
+      - name: Install CocoaPods
+        run: gem install cocoapods
+
+      - name: Deploy to CocoaPods MindboxLogger
+        run: |
+          # pod lib lint MindboxCommon.podspec --allow-warnings
+          # pod trunk push MindboxCommon.podspec --allow-warnings --verbose
+          echo '✅ 💚 Mock published MindboxCommon'
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TOKEN }}
