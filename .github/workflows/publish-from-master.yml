@@ -8,19 +8,19 @@ on:
 
 jobs:
   publish-MindboxCommon:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.ref_name }}
 
-      - name: Install CocoaPods
-        run: gem install cocoapods
-
-      - name: Deploy to CocoaPods MindboxLogger
+      - name: Install required gems
         run: |
-          # pod lib lint MindboxCommon.podspec --allow-warnings
-          # pod trunk push MindboxCommon.podspec --allow-warnings --verbose
-          echo '✅ 💚 Mock published MindboxCommon'
+          gem install cocoapods xcodeproj
+          pod --version
+
+      - name: Deploy to Cocoapods MindboxLogger
+        run: |
+          echo '🔥 ✅ TEST '
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TOKEN }}
