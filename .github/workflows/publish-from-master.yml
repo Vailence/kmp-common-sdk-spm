@@ -25,36 +25,3 @@ jobs:
           echo '🔥 ✅ TEST '
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TOKEN }}
-
-  merge-master-into-develop:
-    needs: [publish-MindboxCommon]
-    if: ${{ success() }}
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-    steps:
-      - name: Checkout develop branch
-        uses: actions/checkout@v5
-        with:
-          ref: develop
-
-      - name: Create Pull Request master → develop
-        run: |
-          gh pr create \
-            --base develop \
-            --head master \
-            --title "Merge 'master' into 'develop' after release" \
-            --body "Automated Pull Request to merge 'master' into 'develop' after successful release."
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Merge created PR automatically
-        run: |
-          pr_number=$(gh pr list --base develop --head master --json number --jq '.[0].number')
-          if [ -n "$pr_number" ]; then
-            gh pr merge "$pr_number" --merge --auto
-          else
-            echo "No matching PR found. Skipping merge."
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
